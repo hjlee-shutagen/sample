@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'main-host'
+    }
 
     environment {
         IMAGE_NAME = "springboot-sample:latest" // Docker 이미지 이름
@@ -29,7 +31,7 @@ pipeline {
                     sh "docker rm -f springboot-sample || true"
 
                     // 새 컨테이너 실행
-                    sh "docker run -d --name springboot-sample -p 8080:8080 ${IMAGE_NAME}"
+                    sh "docker run -d --name springboot-sample -p 8090:8090 ${IMAGE_NAME}"
                 }
             }
         }
