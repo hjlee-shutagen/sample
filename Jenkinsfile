@@ -2,34 +2,35 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "springboot-sample:latest"
+        IMAGE_NAME = "springboot-sample:latest" // Docker 이미지 이름
     }
 
     stages {
         stage('Checkout') {
             steps {
+                // Git에서 코드 가져오기
                 checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                sh './gradlew clean build -x test'
-            }
-        }
-
-        stage('Docker Build') {
-            steps {
-                sh "docker build -t ${IMAGE_NAME} ."
+                script {
+                    // Dockerfile을 사용해 이미지를 빌드
+                    sh "docker build -t ${IMAGE_NAME} ."
+                }
             }
         }
 
         stage('Run Container') {
             steps {
-                // 이전 컨테이너가 있다면 제거
-                sh "docker rm -f springboot-sample || true"
-                // 새 컨테이너 실행
-                sh "docker run -d --name springboot-sample -p 8090:8090 ${IMAGE_NAME}"
+                script {
+                    // 기존 컨테이너를 삭제 (있을 경우)
+                    sh "docker rm -f springboot-sample || true"
+
+                    // 새 컨테이너 실행
+                    sh "docker run -d --name springboot-sample -p 8080:8080 ${IMAGE_NAME}"
+                }
             }
         }
     }
