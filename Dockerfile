@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy Gradle Wrapper and project files
 COPY gradlew .
-COPY .gradle/ .gradle/
+#COPY .gradle/ .gradle/
 COPY build.gradle .
 COPY settings.gradle .
 COPY src/ src/
@@ -21,4 +21,4 @@ RUN ./gradlew clean build -x test
 EXPOSE 8090
 
 # Run the application
-CMD ["java", "-jar", "build/libs/<your-application-name>.jar"]
+CMD ["java", "-jar", "build/libs/sample.jar"]
