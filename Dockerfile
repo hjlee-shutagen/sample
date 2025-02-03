@@ -5,11 +5,13 @@ FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 
 # Copy Gradle Wrapper and project files
-COPY gradlew .
-COPY gradle/ /gradle/
-COPY build.gradle .
-COPY settings.gradle .
-COPY src/ src/
+#COPY gradlew .
+#COPY gradle/ /gradle/
+#COPY build.gradle .
+#COPY settings.gradle .
+#COPY src/ src/
+
+COPY . .
 
 # 파일이 잘 복사되었는지 확인
 RUN ls -al
