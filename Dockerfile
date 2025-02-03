@@ -11,6 +11,9 @@ COPY build.gradle .
 COPY settings.gradle .
 COPY src/ src/
 
+# 파일이 잘 복사되었는지 확인
+RUN ls -al
+
 # Add execute permission to the Gradle Wrapper
 RUN chmod +x gradlew
 
