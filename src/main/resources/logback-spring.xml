@@ -10,6 +10,52 @@
         </encoder>
     </appender>
 
+    <appender name="fluentd" class="ch.qos.logback.more.appenders.DataFluentAppender">
+        <tag>applog</tag>
+        <label>logback</label>
+        <remoteHost>fluentd</remoteHost>
+        <port>24224</port>
+
+<!--        <additionalField>-->
+<!--            <key>foo</key>-->
+<!--            <value>bar</value>-->
+<!--        </additionalField>-->
+<!--        <additionalField>-->
+<!--            <key>foo2</key>-->
+<!--            <value>bar2</value>-->
+<!--        </additionalField>-->
+
+<!--        &lt;!&ndash; [Optional] Configurations to customize Fluent-logger-java's behavior &ndash;&gt;-->
+<!--        <bufferCapacity>16777216</bufferCapacity> &lt;!&ndash; in bytes &ndash;&gt;-->
+<!--        <timeout>10000</timeout> &lt;!&ndash; in milliseconds &ndash;&gt;-->
+
+<!--        &lt;!&ndash;  [Optional] If true, Map Marker is expanded instead of nesting in the marker name &ndash;&gt;-->
+<!--        <flattenMapMarker>false</flattenMapMarker>-->
+<!--        &lt;!&ndash;  [Optional] default "marker" &ndash;&gt;-->
+<!--        <markerPrefix></markerPrefix>-->
+
+<!--        &lt;!&ndash; [Optional] Message encoder if you want to customize message &ndash;&gt;-->
+<!--        <layout class="ch.qos.logback.classic.PatternLayout">-->
+<!--            <Pattern>-->
+<!--                %d{yyyy-MM-dd HH:mm:ss, ${projectTimeZone}} [%X{X-B3-TraceId:-}, %X{X-B3-SpanId:-}] [%X{requestURL}] [%thread] %-5level %logger{36} - %msg %n-->
+<!--            </Pattern>-->
+<!--        </layout>-->
+
+<!--        &lt;!&ndash; [Optional] Message field key name. Default: "message" &ndash;&gt;-->
+<!--        <messageFieldKeyName>msg</messageFieldKeyName>-->
+    </appender>
+
+    <appender name="async" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- Logback의 AsyncAppender 옵션 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <param name="includeCallerData" value="false"/>
+        <param name="queueSize" value="2048"/>
+        <param name="neverBlock" value="true"/>
+        <param name="maxFlushTime" value="5000"/>
+        <appender-ref ref="fluentd" />
+    </appender>
 
     <logger name="jdbc" level="OFF" additive="false">
         <appender-ref ref="STDOUT"/>
